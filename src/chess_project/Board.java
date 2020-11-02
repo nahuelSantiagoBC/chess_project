@@ -5,6 +5,17 @@ public class Board {
 	//propiedades
 	Token[][] board = new Token[8][8];
 	
+	Token whiteKing;
+	int whiteCapturedTokens = 0;
+	int whiteScore = 0;
+	Token[] whitePrison = new Token[8];
+	
+	Token blackKing;
+	int blackCapturedTokens = 0;
+	int blackScore = 0;
+	Token[] blackPrison = new Token[8];
+	
+	
 	//
 	public Board() {
 		
@@ -17,12 +28,13 @@ public class Board {
 	
 	public void initBoard() {
 		
-		//inicializamos whites
+		//inicializamos blancas
+		whiteKing = new Token('K');
 		board[0][0] = new Token('T');
 		board[0][1] = new Token('C');
 		board[0][2] = new Token('A');
 		board[0][3] = new Token('Q');
-		board[0][4] = new Token('K');
+		board[0][4] = whiteKing;
 		board[0][5] = new Token('A');
 		board[0][6] = new Token('C');
 		board[0][7] = new Token('T');
@@ -38,11 +50,12 @@ public class Board {
 		
 		
 		//inicializamos negras
+		blackKing = new Token('k');
 		board[7][0] = new Token('t');
 		board[7][1] = new Token('c');
 		board[7][2] = new Token('a');
 		board[7][3] = new Token('q');
-		board[7][4] = new Token('k');
+		board[7][4] = blackKing;
 		board[7][5] = new Token('a');
 		board[7][6] = new Token('c');
 		board[7][7] = new Token('t');
@@ -71,28 +84,70 @@ public class Board {
 		}
 	}
 	
-	public Token getToken(int[] tokenLocation) {
+	private Token getToken(int[] tokenLocation) {
 		
 		return board[tokenLocation[0]][tokenLocation[1]];
 	}
 	
 	//funciones
 	
-	public boolean checkMove(int[] initLocation, int[] targetLocation) {
-		Token token = getToken(initLocation);
+	private boolean checkMove(int[] initLocation, int[] targetLocation) {
+		Token movingToken = getToken(initLocation);
+		Token targetToken;
 		boolean result = false;
 		//booleana que comprueba que el lugar al que se quiere mover está en la tabla
 		boolean offBoard = (targetLocation[0] > 7 || targetLocation[0] < 0 || targetLocation[1] > 7 || targetLocation[1] < 0);
 		
 		if(!offBoard) {
-			if (token.checkTokenPattern(targetLocation)) {
-				
+			//como sabemos que está en el tablero, obtenemos el token que hay en la posición a moverse
+			targetToken = getToken(targetLocation);
+			boolean isEmpty = targetToken.getType() == 'e';
+			boolean isEnemy = Character.isUpperCase(targetToken.getType()) != Character.isUpperCase(movingToken.getType());
+						
+			if (isEmpty || (!isEmpty) && (isEnemy)) {
+				//comprobamos que el movimiento cumpla el patron de la ficha
+				if (movingToken.checkTokenPattern(targetLocation)) {
+					result = true;
+				}				
 			}
 		}
 		
 		return result;
 	}
 	
+	private void makeMove(int[] initLocation, int[] targetLocation) {
+		Token targetToken = getToken(targetLocation);
+		boolean isEmpty = targetToken.getType() == 'e';
+		
+		if(!isEmpty) {
+			captureToken(targetToken);
+		}
+		moveToken(initLocation, targetLocation);
+	}
+	
+	private boolean isOffBoard(int[] location) {
+		
+		return location[0] > 7 || location[0] < 0 || location[1] > 7 || location[1] < 0;
+	}
+	
+	private void moveToken(int[] initLocation, int[] targetLocation) {
+		Token initToken = getToken(initLocation);
+		Token targetToken = getToken(targetLocation);
+		board[initLocation[0]][initLocation[1]] = initToken;
+		board[targetLocation[0]][targetLocation[1]] = targetToken;
+	}
+	
+	private void captureToken(Token token) {
+		if(Character.isUpperCase(token.getType())) {
+			blackPrison[blackCapturedTokens] = token;
+			blackCapturedTokens++;
+			blackScore += token.getValue();
+		} else {
+			whitePrison[whiteCapturedTokens] = token;
+			whiteCapturedTokens++;
+			whiteScore += token.getValue();
+		}
+	}
 	
 	
 }

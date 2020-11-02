@@ -3,26 +3,59 @@ package chess_project;
 public class Token {
 
 	//propiedades de la ficha
-	boolean isCaptured;
 	boolean isCapturing;
+	int value;
 	char type;
-	MoveController pattern;
 	int[] currentLocation;
 	
 	//construstores
 	public Token(char type){
 		
-		this.isCaptured = false;
+		this.isCapturing = false;
 		this.type = type;
-		pattern = new MoveController(this);
+		value = calculateValue();
 	}
 	
+
 	public Token() {
 		type = 'e';
 	}
 
 	
 	//funciones
+	private int calculateValue() {
+		int result;
+		
+		switch (Character.toLowerCase(type)) {
+		case 'p':
+			result = 1;
+			break;
+			
+		case 'a':
+		case 'c':
+			result = 3;
+			break;
+			
+		case 't':
+			result = 5;
+			break;
+			
+		case 'q':
+			result = 9;
+			break;
+			
+		case 'k':
+			result = 0;
+			break;
+			
+		default:
+			result = 0;
+			break;
+		}
+		
+		
+		return result;
+	}
 	
 	public boolean checkTokenPattern(int[] targetLocation) {
 		boolean result = false;
@@ -122,22 +155,17 @@ public class Token {
 	}
 	
 	//getters y setters
-	
-	public boolean isCaptured() {
-		return isCaptured;
-	}
 
 	public boolean isCapturing() {
 		return isCapturing;
 	}
-
 	
 	public char getType() {
 		return type;
 	}
-
-	public void setCaptured(boolean isCaptured) {
-		this.isCaptured = isCaptured;
+	
+	public int getValue() {
+		return value;
 	}
 	
 	public void setCapturing(boolean isCapturing) {
