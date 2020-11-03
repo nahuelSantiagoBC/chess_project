@@ -75,14 +75,13 @@ public class Token {
 				movedOneDown = (targetLocation[1] == currentLocation[1]-1) && type == 'p';
 
 				if (isCapturing) {
-					movedOneRight = (targetLocation[0] == currentLocation[0]+1);
-					movedOneLeft = (targetLocation[0] == currentLocation[0]-1);
+					boolean movedOneDiagonally = (targetLocation[0] - currentLocation[0] == targetLocation[1] - currentLocation[1]) && targetLocation[0] - currentLocation[0] == Math.abs(1);
 					
 					//comprobamos si se ha movido en diagonal 1 puesto
-					result = (movedOneDown && movedOneRight) || (movedOneDown && movedOneLeft) || (movedOneUp && movedOneRight) || (movedOneUp && movedOneLeft);
+					result = (movedOneDiagonally) && ( movedOneUp || movedOneDown);
 				} else {
 					//comprobamos si está en la segunda o penúltima línea
-					if (currentLocation[1] == 1 || currentLocation[1] == 7) {
+					if (currentLocation[1] == 1 || currentLocation[1] == 6) {
 						boolean movedTwoUp = (targetLocation[1] == currentLocation[1]+2) && type == 'P';
 						boolean movedTwoDown = (targetLocation[1] == currentLocation[1]-2) && type == 'p';
 						
@@ -104,10 +103,10 @@ public class Token {
 	
 			case 'c':
 				
-				boolean jumpedUpLeft = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] + 2);
-				boolean jumpedLeftUp = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] + 1);
-				boolean jumpedUpRight = (targetLocation[0] == currentLocation[0] - 1 && targetLocation[1] == currentLocation[1] + 2);
-				boolean jumpedRightUp = (targetLocation[0] == currentLocation[0] - 2 && targetLocation[1] == currentLocation[1] + 1);
+				boolean jumpedUpLeft = (targetLocation[0] == currentLocation[0] - 1 && targetLocation[1] == currentLocation[1] + 2);
+				boolean jumpedLeftUp = (targetLocation[0] == currentLocation[0] - 2 && targetLocation[1] == currentLocation[1] + 1);
+				boolean jumpedUpRight = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] + 2);
+				boolean jumpedRightUp = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] + 1);
 				boolean jumpedDownLeft = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] - 2);
 				boolean jumpedLeftDown = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] - 1);
 				boolean jumpedDownRight = (targetLocation[0] == currentLocation[0] - 1 && targetLocation[1] == currentLocation[1] - 2);

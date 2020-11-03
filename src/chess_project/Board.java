@@ -106,11 +106,16 @@ public class Board {
 						
 			if (isEmpty || (!isEmpty) && (isEnemy)) {
 				//comprobamos que el movimiento cumpla el patron de la ficha
+				if (isEnemy) {
+					movingToken.setCapturing(true);
+				}
 				if (movingToken.checkTokenPattern(targetLocation)) {
 					result = true;
 				}				
 			}
 		}
+		
+		movingToken.setCapturing(false);
 		
 		return result;
 	}
