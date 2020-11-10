@@ -7,6 +7,7 @@ public class Token {
 	int value;
 	char type;
 	int[] currentLocation;
+	boolean canCast;
 	
 	//construstores
 	public Token(char type){
