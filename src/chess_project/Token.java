@@ -3,18 +3,24 @@ package chess_project;
 public class Token {
 
 	//propiedades de la ficha
-	boolean isCapturing;
-	int value;
-	char type;
-	int[] currentLocation;
-	boolean canCast;
+	private boolean isCapturing;
+	private int value;
+	private char type;
+	private int[] currentLocation;
+	private boolean canCast;
 	
 	//construstores
-	public Token(char type){
+	public Token(char type, int[] currentLocation){
 		
 		this.isCapturing = false;
 		this.type = type;
 		value = calculateValue();
+		this.currentLocation = currentLocation;
+		if (Character.toUpperCase(type) == 'T' || Character.toUpperCase(type) == 'K') {
+			canCast = true;
+		} else {
+			canCast = false;
+		}
 	}
 	
 
@@ -146,14 +152,33 @@ public class Token {
 				result = movedOneDown || movedOneLeft || movedOneRight || movedOneUp;
 				
 				break;
-	
-			default:
-				break;
 		}
 		
 		return result;
 	}
 	
+	public void move(Board board, Token targetToken) {
+		int[] targetLocation = targetToken.getCurrentLocation();
+		Token[][] updatedPanel = board.getPanel();
+		updatedPanel[targetLocation[0]][targetLocation[1]] = this;
+		updatedPanel[currentLocation[0]][currentLocation[1]] = new Token();
+		board.setPanel(updatedPanel);
+		setCurrentLocation(targetLocation);
+		this.canCast = false;
+	}
+	
+	public void castling(Board board, Token rook) {
+		int[] rookLocation = rook.getCurrentLocation();
+		rook.move(board, this);
+		this.move(board, board.getToken(rookLocation));
+		this.canCast = false;
+		rook.canCast = false;
+		
+	}
+	
+	public boolean isEnemy(Token token) {
+		return Character.isUpperCase(token.getType()) != Character.isUpperCase(this.getType());
+	}
 	//getters y setters
 
 	public boolean isCapturing() {
@@ -168,12 +193,28 @@ public class Token {
 		return value;
 	}
 	
+	public void setCurrentLocation(int[] currentLocation){
+		this.currentLocation = currentLocation; 
+	}
+	
+	public int[] getCurrentLocation() {
+		return currentLocation;
+	}
+	
 	public void setCapturing(boolean isCapturing) {
 		this.isCapturing = isCapturing;
 	}
 
 	public void setType(char type) {
 		this.type = type;
+	}
+	
+	public boolean getCanCast() {
+		return canCast;
+	}
+	
+	public void setCanCast(boolean canCast) {
+		this.canCast = canCast;
 	}
 	
 }
