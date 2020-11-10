@@ -29,7 +29,7 @@ public class ChessTester {
 					location[1] = scan.nextInt();
 
 				}
-				else {
+				else{
 
 					System.out.println("black turn");
 					System.out.println("Which token you want to move)");
@@ -48,7 +48,7 @@ public class ChessTester {
 					location[1] = scan.nextInt();
 
 				}
-				else {
+				else{
 
 					System.out.println("black turn");
 					System.out.println("Where do you want to move");
