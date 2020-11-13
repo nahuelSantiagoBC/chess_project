@@ -3,40 +3,41 @@ package chess_project;
 public class Board {
 
 	//propiedades
-	private Token[][] panel;
-	
+	//private Token[][] panel;
+
+	private Token panel[][] = new Token[8][8];
 	private Token whiteKing;
 	private int whiteCapturedTokens;
 	private int whiteScore;
 	private Token[] whitePrison;
-	
+
 	private Token blackKing;
 	private int blackCapturedTokens;
 	private int blackScore;
 	private Token[] blackPrison;
-	
-	
-	
+
+
+
 	//
 	public Board() {
-		
+
 		//inicializamos tablero
 		this.initBoard();
-		
+
 		whiteCapturedTokens = 0;
 		whiteScore = 0;
 		whitePrison = new Token[8];
-		
+
 		blackCapturedTokens = 0;
 		blackScore = 0;
 		blackPrison = new Token[8];
-		
+
 	}
-	
+
 	public void initBoard() {
-		
+
 		panel = new Token[8][8];
-		
+
 		//inicializamos blancas
 		whiteKing = new Token('K', new int[] {0, 4});
 		panel[0][0] = new Token('T', new int[] {0, 0});
@@ -47,7 +48,7 @@ public class Board {
 		panel[0][5] = new Token('A', new int[] {0, 5});
 		panel[0][6] = new Token('C', new int[] {0, 6});
 		panel[0][7] = new Token('T', new int[] {0, 7});
-		
+
 		panel[1][0] = new Token('P', new int[] {1, 0});
 		panel[1][1] = new Token('P', new int[] {1, 1});
 		panel[1][2] = new Token('P', new int[] {1, 2});
@@ -56,63 +57,64 @@ public class Board {
 		panel[1][5] = new Token('P', new int[] {1, 5});
 		panel[1][6] = new Token('P', new int[] {1, 6});
 		panel[1][7] = new Token('P', new int[] {1, 7});
-		
-		
+
+
 		//inicializamos negras
 		blackKing = new Token('K', new int[] {7, 4});
-		panel[0][0] = new Token('T', new int[] {7, 0});
-		panel[0][1] = new Token('C', new int[] {7, 1});
-		panel[0][2] = new Token('A', new int[] {7, 2});
-		panel[0][3] = new Token('Q', new int[] {7, 3});
-		panel[0][4] = blackKing;
-		panel[0][5] = new Token('A', new int[] {7, 5});
-		panel[0][6] = new Token('C', new int[] {7, 6});
-		panel[0][7] = new Token('T', new int[] {7, 7});
-		
-		panel[1][0] = new Token('P', new int[] {6, 0});
-		panel[1][1] = new Token('P', new int[] {6, 1});
-		panel[1][2] = new Token('P', new int[] {6, 2});
-		panel[1][3] = new Token('P', new int[] {6, 3});
-		panel[1][4] = new Token('P', new int[] {6, 4});
-		panel[1][5] = new Token('P', new int[] {6, 5});
-		panel[1][6] = new Token('P', new int[] {6, 6});
-		panel[1][7] = new Token('P', new int[] {6, 7});
-		
+		panel[7][0] = new Token('T', new int[] {7, 0});
+		panel[7][1] = new Token('C', new int[] {7, 1});
+		panel[7][2] = new Token('A', new int[] {7, 2});
+		panel[7][3] = new Token('Q', new int[] {7, 3});
+		panel[7][4] = blackKing;
+		panel[7][5] = new Token('A', new int[] {7, 5});
+		panel[7][6] = new Token('C', new int[] {7, 6});
+		panel[7][7] = new Token('T', new int[] {7, 7});
+
+		panel[6][0] = new Token('P', new int[] {6, 0});
+		panel[6][1] = new Token('P', new int[] {6, 1});
+		panel[6][2] = new Token('P', new int[] {6, 2});
+		panel[6][3] = new Token('P', new int[] {6, 3});
+		panel[6][4] = new Token('P', new int[] {6, 4});
+		panel[6][5] = new Token('P', new int[] {6, 5});
+		panel[6][6] = new Token('P', new int[] {6, 6});
+		panel[6][7] = new Token('P', new int[] {6, 7});
+
 		//Autocompletamos lo que queda del tablero
-		
-		for (int i = 2; i <= 6; i++) {
-			System.out.println();
-			for (int j = 0; j <= 8; j++) {
-				
+
+		for (int i = 2; i < 6; i++) {
+			for (int j = 0; j < 8; j++) {
+
 				panel[i][j] = new Token();
-				//Esto es un intento de intentar printar el tipo de ficha que es pero como es una matriz de objetos, que guar un objeto posicion y luego guarda un objeto ficha no se
-				//como pillar el caracter de la ficha
-				System.out.println(getToken(new int[]{i, j}));
+				
+
 			}
-			
+
 		}
+
+
 	}
-	
+
+
 	public Token getToken(int[] tokenLocation) {
-		
+
 		return panel[tokenLocation[0]][tokenLocation[1]];
 	}
-	
+
 	//funciones
-	
+
 	private boolean checkMove(int[] initLocation, int[] targetLocation) {
 		Token movingToken = getToken(initLocation);
 		Token targetToken;
 		boolean result = false;
 		//booleana que comprueba que el lugar al que se quiere mover está en la tabla
 		boolean offBoard = (targetLocation[0] > 7 || targetLocation[0] < 0 || targetLocation[1] > 7 || targetLocation[1] < 0);
-		
+
 		if(!offBoard) {
 			//como sabemos que está en el tablero, obtenemos el token que hay en la posición a moverse
 			targetToken = getToken(targetLocation);
 			boolean isEmpty = targetToken.getType() == 'e';
 			boolean isEnemy = movingToken.isEnemy(targetToken);
-						
+
 			if (isEmpty || (!isEmpty) && (isEnemy)) {
 				//comprobamos que el movimiento cumpla el patron de la ficha
 				if (isEnemy) {
@@ -142,16 +144,16 @@ public class Board {
 				}
 			}
 		}
-		
+
 		movingToken.setCapturing(false);
-		
+
 		return result;
 	}
-	
+
 	private void makeMove(int[] initLocation, Token targetToken) {
 		Token movingToken = getToken(initLocation);
 		boolean isEmpty = targetToken.getType() == 'e';
-		
+
 		if(isEmpty) {
 			movingToken.move(this, targetToken);
 		} else {
@@ -169,13 +171,13 @@ public class Board {
 			}
 		}
 	}
-	
 
-	private boolean isOffBoard(int[] location) {
-		
+
+	boolean isOffBoard(int[] location) {
+
 		return location[0] > 7 || location[0] < 0 || location[1] > 7 || location[1] < 0;
 	}
-	
+
 	private void captureToken(Token token) {
 		if(Character.isUpperCase(token.getType())) {
 			blackPrison[blackCapturedTokens] = token;
@@ -187,12 +189,42 @@ public class Board {
 			whiteScore += token.getValue();
 		}
 	}
-	
-	
+
+	public void showBoard() {
+
+		for (int i = 0; i <= 7; i++) {
+
+			for (int j = 0; j <= 7; j++) {
+				System.out.print(panel[i][j].getType());			
+			}
+			System.out.println();
+		}
+		
+
+	}
+	public boolean kingCapture() {
+		int count = 0;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				
+				if(panel[i][j].getType()=='k'||panel[i][j].getType()=='K') {
+					count++;
+				}
+			}
+			if(count == 2) {
+				return true;
+			}
+			
+		}
+		return false;
+		
+	}
+
+
 	/*
 	 * Getters y Setters
 	 */
-	
+
 	public Token[][] getPanel() {
 		return panel;
 	}
@@ -265,4 +297,5 @@ public class Board {
 		this.blackPrison = blackPrison;
 	}
 	
+
 }

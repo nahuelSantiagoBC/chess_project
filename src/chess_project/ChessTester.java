@@ -2,6 +2,8 @@ package chess_project;
 
 import java.util.Scanner;
 
+import com.sun.webkit.ContextMenu.ShowContext;
+
 public class ChessTester {
 
 
@@ -12,10 +14,12 @@ public class ChessTester {
 		Board panel = new Board();
 		boolean kingCaptured = false;
 		int jugador = 1;
-		int[] location = null;
-		int[] targerLocation = null;
+		int location[] = new int[2];
+		int targetLocation[] = new int[2];
 
-		//printamos tablero
+		
+		panel.showBoard();
+
 
 		while(!kingCaptured) {
 
@@ -37,7 +41,7 @@ public class ChessTester {
 					location[1] = scan.nextInt();
 				}
 
-			}while(panel.getIsOffBoard(location));
+			}while(panel.isOffBoard(location));
 
 			do {
 				if(jugador % 2 ==1) {
@@ -57,7 +61,7 @@ public class ChessTester {
 
 
 				}
-			}while(panel.getIsOffBoard(location));
+			}while(panel.isOffBoard(location));
 
 
 
