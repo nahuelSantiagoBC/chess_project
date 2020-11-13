@@ -5,7 +5,7 @@ public class Board {
 	//propiedades
 	//private Token[][] panel;
 
-	private Token panel[][] = new Token[8][8];
+	public Token panel[][] = new Token[8][8];
 	private Token whiteKing;
 	private int whiteCapturedTokens;
 	private int whiteScore;
@@ -102,7 +102,7 @@ public class Board {
 
 	//funciones
 
-	private boolean checkMove(int[] initLocation, int[] targetLocation) {
+	public boolean checkMove(int[] initLocation, int[] targetLocation) {
 		Token movingToken = getToken(initLocation);
 		Token targetToken;
 		boolean result = false;
@@ -150,7 +150,7 @@ public class Board {
 		return result;
 	}
 
-	private void makeMove(int[] initLocation, Token targetToken) {
+	/*public void makeMove(int[] initLocation, Token targetToken) {
 		Token movingToken = getToken(initLocation);
 		boolean isEmpty = targetToken.getType() == 'e';
 
@@ -170,7 +170,7 @@ public class Board {
 				}
 			}
 		}
-	}
+	}*/
 
 
 	boolean isOffBoard(int[] location) {

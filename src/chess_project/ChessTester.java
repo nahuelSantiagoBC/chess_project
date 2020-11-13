@@ -2,6 +2,7 @@ package chess_project;
 
 import java.util.Scanner;
 
+import com.sun.corba.se.spi.ior.MakeImmutable;
 import com.sun.webkit.ContextMenu.ShowContext;
 
 public class ChessTester {
@@ -15,7 +16,12 @@ public class ChessTester {
 		boolean kingCaptured = false;
 		int jugador = 1;
 		int location[] = new int[2];
+		int x;
+		int y;
+		int xTarget;
+		int yTarget;
 		int targetLocation[] = new int[2];
+		boolean correctMove = false;
 
 		
 		panel.showBoard();
@@ -29,40 +35,42 @@ public class ChessTester {
 
 					System.out.println("White turn");
 					System.out.println("Which token you want to move");
-					location[0] = scan.nextInt();
-					location[1] = scan.nextInt();
+					x = scan.nextInt();
+					y = scan.nextInt();
 
 				}
 				else{
 
 					System.out.println("black turn");
 					System.out.println("Which token you want to move)");
-					location[0] = scan.nextInt();
-					location[1] = scan.nextInt();
+					xTarget = scan.nextInt();
+					yTarget = scan.nextInt();
 				}
+				
 
-			}while(panel.isOffBoard(location));
+			}while(panel.isOffBoard(location) && !panel.checkMove(location, targetLocation));
 
 			do {
 				if(jugador % 2 ==1) {
 
 					System.out.println("White turn");
 					System.out.println("Where do you want to move");
-					location[0] = scan.nextInt();
-					location[1] = scan.nextInt();
-
+					x = scan.nextInt();
+					y = scan.nextInt();
 				}
 				else{
 
 					System.out.println("black turn");
 					System.out.println("Where do you want to move");
-					location[0] = scan.nextInt();
-					location[1] = scan.nextInt();
+					xTarget = scan.nextInt();
+					yTarget = scan.nextInt();
 
 
 				}
-			}while(panel.isOffBoard(location));
+			}while(panel.isOffBoard(location) && !panel.checkMove(location, targetLocation));
 
+			move(panel, panel[x][y]);
+				
 
 
 
