@@ -69,7 +69,7 @@ public class ChessTester {
 				}
 			}while(panel.isOffBoard(location) && !panel.checkMove(location, targetLocation));
 
-			move(panel, panel[x][y]);
+			move(panel, panel[xTarget][yTarget]);
 				
 
 
