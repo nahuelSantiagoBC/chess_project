@@ -192,9 +192,9 @@ public class Board {
 
 	public void showBoard() {
 
-		for (int i = 0; i <= 7; i++) {
+		for (int i = 7; i >= 0; i--) {
 
-			for (int j = 0; j <= 7; j++) {
+			for (int j = 7; j >= 0; j--) {
 				System.out.print(panel[i][j].getType() + " ");			
 			}
 			System.out.println();
@@ -202,7 +202,7 @@ public class Board {
 		
 
 	}
-	public boolean kingCapture() {
+	public boolean isKingCapture() {
 		int count = 0;
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
