@@ -55,8 +55,8 @@ public class ChessTester {
 						
 						location[0] = scan.nextInt();
 						location[1] = scan.nextInt();
-						if(!Character.isUpperCase(board.getToken(location).getType())) {
-							System.out.println("Wrong, choose a white token");
+						if(!Character.isLowerCase(board.getToken(location).getType())) {
+							System.out.println("Wrong, choose a black token");
 						}
 						//Repetimos hasta que sea correcta
 					}while(!Character.isLowerCase(board.getToken(location).getType()));
