@@ -99,13 +99,10 @@ public class ChessTester {
 			else {
 				System.out.println("Wrong move, do it again");
 			}
-				
-
-
+			
 			
 			board.showBoard();
 			noKingCaptured = board.isKingCapture();
-
 		}
 	}
 }
