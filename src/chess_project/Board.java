@@ -60,31 +60,31 @@ public class Board {
 
 
 		//inicializamos negras
-		blackKing = new Token('K', new int[] {7, 4});
-		panel[7][0] = new Token('T', new int[] {7, 0});
-		panel[7][1] = new Token('C', new int[] {7, 1});
-		panel[7][2] = new Token('A', new int[] {7, 2});
-		panel[7][3] = new Token('Q', new int[] {7, 3});
+		blackKing = new Token('k', new int[] {7, 4});
+		panel[7][0] = new Token('t', new int[] {7, 0});
+		panel[7][1] = new Token('c', new int[] {7, 1});
+		panel[7][2] = new Token('a', new int[] {7, 2});
+		panel[7][3] = new Token('q', new int[] {7, 3});
 		panel[7][4] = blackKing;
-		panel[7][5] = new Token('A', new int[] {7, 5});
-		panel[7][6] = new Token('C', new int[] {7, 6});
-		panel[7][7] = new Token('T', new int[] {7, 7});
+		panel[7][5] = new Token('a', new int[] {7, 5});
+		panel[7][6] = new Token('c', new int[] {7, 6});
+		panel[7][7] = new Token('t', new int[] {7, 7});
 
-		panel[6][0] = new Token('P', new int[] {6, 0});
-		panel[6][1] = new Token('P', new int[] {6, 1});
-		panel[6][2] = new Token('P', new int[] {6, 2});
-		panel[6][3] = new Token('P', new int[] {6, 3});
-		panel[6][4] = new Token('P', new int[] {6, 4});
-		panel[6][5] = new Token('P', new int[] {6, 5});
-		panel[6][6] = new Token('P', new int[] {6, 6});
-		panel[6][7] = new Token('P', new int[] {6, 7});
+		panel[6][0] = new Token('p', new int[] {6, 0});
+		panel[6][1] = new Token('p', new int[] {6, 1});
+		panel[6][2] = new Token('p', new int[] {6, 2});
+		panel[6][3] = new Token('p', new int[] {6, 3});
+		panel[6][4] = new Token('p', new int[] {6, 4});
+		panel[6][5] = new Token('p', new int[] {6, 5});
+		panel[6][6] = new Token('p', new int[] {6, 6});
+		panel[6][7] = new Token('p', new int[] {6, 7});
 
 		//Autocompletamos lo que queda del tablero
 
 		for (int i = 2; i < 6; i++) {
 			for (int j = 0; j < 8; j++) {
 
-				panel[i][j] = new Token();
+				panel[i][j] = new Token(new int[] {i, j});
 				
 
 			}
@@ -195,7 +195,7 @@ public class Board {
 		for (int i = 0; i <= 7; i++) {
 
 			for (int j = 0; j <= 7; j++) {
-				System.out.print(panel[i][j].getType());			
+				System.out.print(panel[i][j].getType() + " ");			
 			}
 			System.out.println();
 		}

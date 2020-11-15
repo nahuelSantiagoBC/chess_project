@@ -24,8 +24,9 @@ public class Token {
 	}
 
 
-	public Token() {
+	public Token(int[] currentLocation) {
 		type = 'e';
+		this.currentLocation = currentLocation;
 	}
 
 
@@ -159,9 +160,10 @@ public class Token {
 
 	public void move(Board board, Token targetToken) {
 		int[] targetLocation = targetToken.getCurrentLocation();
+		
 		Token[][] updatedPanel = board.getPanel();
 		updatedPanel[targetLocation[0]][targetLocation[1]] = this;
-		updatedPanel[currentLocation[0]][currentLocation[1]] = new Token();
+		updatedPanel[currentLocation[0]][currentLocation[1]] = new Token(currentLocation);
 		board.setPanel(updatedPanel);
 		setCurrentLocation(targetLocation);
 		this.canCast = false;
