@@ -150,7 +150,7 @@ public class Board {
 		return result;
 	}
 
-	/*public void makeMove(int[] initLocation, Token targetToken) {
+	public void makeMove(int[] initLocation, Token targetToken) {
 		Token movingToken = getToken(initLocation);
 		boolean isEmpty = targetToken.getType() == 'e';
 
@@ -170,7 +170,7 @@ public class Board {
 				}
 			}
 		}
-	}*/
+	}
 
 
 	boolean isOffBoard(int[] location) {
@@ -194,7 +194,7 @@ public class Board {
 
 		for (int i = 7; i >= 0; i--) {
 
-			for (int j = 7; j >= 0; j--) {
+			for (int j = 0; j <= 7; j++) {
 				System.out.print(panel[i][j].getType() + " ");			
 			}
 			System.out.println();
@@ -219,7 +219,6 @@ public class Board {
 		return false;
 		
 	}
-
 
 	/*
 	 * Getters y Setters
