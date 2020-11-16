@@ -75,23 +75,23 @@ public class Token {
 		boolean movedHorizontally;
 		boolean movedVertically;
 
-
+		//importante recordar que 0 es al Y, 1  es la X
 		switch (Character.toLowerCase(type)) {
 		case 'p':
 
-			movedOneUp = (targetLocation[1] == currentLocation[1]+1) && type == 'P';
-			movedOneDown = (targetLocation[1] == currentLocation[1]-1) && type == 'p';
+			movedOneUp = (targetLocation[0] == currentLocation[0]+1);
+			movedOneDown = (targetLocation[0] == currentLocation[0]-1);
 
 			if (isCapturing) {
-				boolean movedOneDiagonally = (targetLocation[0] - currentLocation[0] == targetLocation[1] - currentLocation[1]) && targetLocation[0] - currentLocation[0] == Math.abs(1);
+				boolean movedOneDiagonally = (targetLocation[1] - currentLocation[1] == targetLocation[0] - currentLocation[0]) && targetLocation[1] - currentLocation[1] == Math.abs(1);
 
 				//comprobamos si se ha movido en diagonal 1 puesto
 				result = (movedOneDiagonally) && ( movedOneUp || movedOneDown);
 			} else {
 				//comprobamos si está en la segunda o penúltima línea
-				if (currentLocation[1] == 1 || currentLocation[1] == 6) {
-					boolean movedTwoUp = (targetLocation[1] == currentLocation[1]+2) && type == 'P';
-					boolean movedTwoDown = (targetLocation[1] == currentLocation[1]-2) && type == 'p';
+				if (currentLocation[0] == 1 || currentLocation[0] == 6) {
+					boolean movedTwoUp = (targetLocation[0] == currentLocation[0]+2);
+					boolean movedTwoDown = (targetLocation[0] == currentLocation[0]-2);
 
 					result = movedOneDown || movedOneUp || movedTwoDown || movedTwoUp;
 				} else {
@@ -111,14 +111,14 @@ public class Token {
 
 		case 'c':
 
-			boolean jumpedUpLeft = (targetLocation[0] == currentLocation[0] - 1 && targetLocation[1] == currentLocation[1] + 2);
-			boolean jumpedLeftUp = (targetLocation[0] == currentLocation[0] - 2 && targetLocation[1] == currentLocation[1] + 1);
-			boolean jumpedUpRight = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] + 2);
-			boolean jumpedRightUp = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] + 1);
-			boolean jumpedDownLeft = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] - 2);
-			boolean jumpedLeftDown = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] - 1);
-			boolean jumpedDownRight = (targetLocation[0] == currentLocation[0] - 1 && targetLocation[1] == currentLocation[1] - 2);
-			boolean jumpedRightDown = (targetLocation[0] == currentLocation[0] - 2 && targetLocation[1] == currentLocation[1] - 1);
+			boolean jumpedUpLeft = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] - 1);
+			boolean jumpedLeftUp = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] - 2);
+			boolean jumpedUpRight = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] + 1);
+			boolean jumpedRightUp = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] + 2);
+			boolean jumpedDownLeft = (targetLocation[0] == currentLocation[0] - 2 && targetLocation[1] == currentLocation[1] + 1);
+			boolean jumpedLeftDown = (targetLocation[0] == currentLocation[0] - 1 && targetLocation[1] == currentLocation[1] + 2);
+			boolean jumpedDownRight = (targetLocation[0] == currentLocation[0] - 2 && targetLocation[1] == currentLocation[1] - 1);
+			boolean jumpedRightDown = (targetLocation[0] == currentLocation[0] - 1 && targetLocation[1] == currentLocation[1] - 2);
 
 			result = jumpedDownLeft || jumpedDownRight || jumpedLeftDown || jumpedLeftUp  || jumpedRightDown || jumpedRightUp || jumpedUpLeft || jumpedUpRight;
 
@@ -126,8 +126,8 @@ public class Token {
 
 		case 't':
 
-			movedHorizontally = (targetLocation[0] != currentLocation[0]) && (targetLocation[1] == currentLocation[1]);
-			movedVertically = (targetLocation[0] == currentLocation[0]) && (targetLocation[1] != currentLocation[1]);
+			movedHorizontally = ((targetLocation[0] == currentLocation[1] && targetLocation[1] != currentLocation[0]));
+			movedVertically = ((targetLocation[0] != currentLocation[1] && targetLocation[1] == currentLocation[0]));
 
 			result = movedVertically || movedHorizontally;
 
@@ -136,8 +136,8 @@ public class Token {
 		case 'q':
 
 			movedDiagonally = targetLocation[0] - currentLocation[0] == targetLocation[1] - currentLocation[1];
-			movedHorizontally = (targetLocation[0] != currentLocation[0]) && (targetLocation[1] == currentLocation[1]);
-			movedVertically = (targetLocation[0] == currentLocation[0]) && (targetLocation[1] != currentLocation[1]);
+			movedHorizontally = ((targetLocation[0] == currentLocation[1] && targetLocation[1] != currentLocation[0]));
+			movedVertically = ((targetLocation[0] != currentLocation[1] && targetLocation[1] == currentLocation[0]));
 
 			result = movedDiagonally || movedHorizontally || movedVertically;
 
@@ -145,10 +145,10 @@ public class Token {
 
 		case 'k':
 
-			movedOneUp = (targetLocation[1] == currentLocation[1]+1) && type == 'P';
-			movedOneDown = (targetLocation[1] == currentLocation[1]-1) && type == 'p';
-			movedOneRight = (targetLocation[0] == currentLocation[0]+1);
-			movedOneLeft = (targetLocation[0] == currentLocation[0]-1);
+			movedOneUp = (targetLocation[0] == currentLocation[0]+1);
+			movedOneDown = (targetLocation[0] == currentLocation[0]-1);
+			movedOneRight = (targetLocation[1] == currentLocation[1]+1);
+			movedOneLeft = (targetLocation[1] == currentLocation[1]-1);
 
 			result = movedOneDown || movedOneLeft || movedOneRight || movedOneUp;
 
@@ -171,15 +171,30 @@ public class Token {
 
 	public void castling(Board board, Token rook) {
 		int[] rookLocation = rook.getCurrentLocation();
-		rook.move(board, this);
-		this.move(board, board.getToken(rookLocation));
+		
+		Token rookNewPosition;
+		Token kingNewPosition;
+		
+		//importante recordar que 0 es al Y, 1  es la X
+		//establecemos las nuevas posiciones de las piezas segun la torre llamada
+		if (rook.getCurrentLocation()[1] == 0) {
+			//si es la torre de la derecha creamos los tokens en la derecha
+			rookNewPosition = new Token(new int[] {rookLocation[0], rookLocation[1] + 2});
+			kingNewPosition = new Token(new int[] {getCurrentLocation()[0], getCurrentLocation()[1] - 3});
+		} else {
+			rookNewPosition = new Token(new int[] {rookLocation[0], rookLocation[1] - 2});
+			kingNewPosition = new Token(new int[] {getCurrentLocation()[0], getCurrentLocation()[1] + 2});
+		}
+		
+		rook.move(board, rookNewPosition);
+		this.move(board, kingNewPosition);
 		this.canCast = false;
 		rook.canCast = false;
 
 	}
 
 	public boolean isEnemy(Token token) {
-		return Character.isUpperCase(token.getType()) != Character.isUpperCase(this.getType());
+		return Character.isUpperCase(token.getType()) != Character.isUpperCase(this.getType()) && token.getType() != 'e';
 	}
 
 	
@@ -202,7 +217,7 @@ public class Token {
 	}
 
 	public int[] getCurrentLocation() {
-		return currentLocation;
+		return currentLocation.clone();
 	}
 
 	public void setCapturing(boolean isCapturing) {

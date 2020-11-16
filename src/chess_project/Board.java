@@ -1,5 +1,8 @@
 package chess_project;
 
+import java.awt.image.ColorConvertOp;
+import java.util.Arrays;
+
 public class Board {
 
 	//propiedades
@@ -121,7 +124,10 @@ public class Board {
 					movingToken.setCapturing(true);
 				}
 				if (movingToken.checkTokenPattern(targetLocation)) {
-					result = true;
+					//comprobamos que no haya piezas por en medio
+					if (isPathClear(movingToken, targetLocation)) {
+						result = true;						
+					}
 				}				
 			} else {
 				//si el objetivo es un aliado, comprobamos que sean torre y rey
@@ -129,7 +135,9 @@ public class Board {
 				case 'K':
 					if (Character.toUpperCase(targetToken.getType()) == 'T') {
 						if (targetToken.getCanCast() && movingToken.getCanCast()) {
-							result = true;
+							if (isPathClear(movingToken, targetLocation)) {
+								result = true;						
+							}
 						}
 					}
 					break;
@@ -137,7 +145,9 @@ public class Board {
 				case 'T':
 					if (Character.toUpperCase(targetToken.getType()) == 'K') {
 						if (targetToken.getCanCast() && movingToken.getCanCast()) {
-							result = true;
+							if (isPathClear(movingToken, targetLocation)) {
+								result = true;						
+							}
 						}
 					}
 					break;
@@ -150,7 +160,62 @@ public class Board {
 		return result;
 	}
 
-	public void makeMove(int[] initLocation, Token targetToken) {
+	//metodo que comprueba que el camino a la posicion valida esta despejado
+	private boolean isPathClear(Token movingToken, int[] targetLocation) {
+		
+		int[] initialLocation;
+		int[] positionChangePattern;
+		int horizontalDifference;
+		int horizontalDirection;
+		int verticalDifference;
+		int verticalDirection;
+		boolean result = false;
+		
+		if(Character.toUpperCase(movingToken.getType()) == 'C') {
+			result = true;
+		} else {
+			initialLocation = movingToken.getCurrentLocation();
+			
+			horizontalDifference = targetLocation[1] - initialLocation[1];
+			if (horizontalDifference != 0) {
+				horizontalDirection = horizontalDifference / Math.abs(horizontalDifference);
+			} else {
+				horizontalDirection = 0;
+			}
+			
+			verticalDifference = targetLocation[0] - initialLocation[0];
+			if (verticalDifference != 0) {
+				verticalDirection = verticalDifference / Math.abs(verticalDifference);
+			} else {
+				verticalDirection = 0;
+			}
+			
+			//obtenemos la forma en la que va variando la posicion en forma de 
+			positionChangePattern = new int[] {verticalDirection, horizontalDirection};
+			result = lookForTokens(initialLocation, targetLocation, positionChangePattern);
+		}
+		
+		return result;
+	}
+
+	//función que comprueba que la trayectoria del movimiento esté despejada
+	private boolean lookForTokens(int[] initialLocation, int[] targetLocation, int[] positionChangePattern) {
+		
+		boolean result = true;
+		
+		while(!Arrays.equals(initialLocation, targetLocation) && result == true) {
+			initialLocation[0] += positionChangePattern[0];
+			initialLocation[1] += positionChangePattern[1];
+			if (getToken(initialLocation).getType() != 'e' && !Arrays.equals(initialLocation, targetLocation)) {
+				result = false;
+			}
+		}
+		
+		return result;
+	}
+
+	public void makeMove(int[] initLocation, int[] targetLocation) {
+		Token targetToken = getToken(targetLocation);
 		Token movingToken = getToken(initLocation);
 		boolean isEmpty = targetToken.getType() == 'e';
 
@@ -225,7 +290,7 @@ public class Board {
 	 */
 
 	public Token[][] getPanel() {
-		return panel;
+		return panel.clone();
 	}
 
 	public void setPanel(Token[][] panel) {
@@ -257,7 +322,7 @@ public class Board {
 	}
 
 	public Token[] getWhitePrison() {
-		return whitePrison;
+		return whitePrison.clone();
 	}
 
 	public void setWhitePrison(Token[] whitePrison) {
@@ -289,7 +354,7 @@ public class Board {
 	}
 
 	public Token[] getBlackPrison() {
-		return blackPrison;
+		return blackPrison.clone();
 	}
 
 	public void setBlackPrison(Token[] blackPrison) {

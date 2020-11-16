@@ -93,7 +93,7 @@ public class ChessTester {
 
 			
 			if(board.checkMove(location, targetLocation)) {
-				board.makeMove(location, board.getToken(targetLocation));
+				board.makeMove(location, targetLocation);
 				whiteplayer = !whiteplayer;
 			}
 			else {
