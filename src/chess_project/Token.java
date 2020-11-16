@@ -16,6 +16,8 @@ public class Token {
 		this.type = type;
 		value = calculateValue();
 		this.currentLocation = currentLocation;
+		
+		//Le añadimos la propiedad para el enroque a las torres y al rey
 		if (Character.toUpperCase(type) == 'T' || Character.toUpperCase(type) == 'K') {
 			canCast = true;
 		} else {
@@ -64,7 +66,8 @@ public class Token {
 
 		return result;
 	}
-
+	
+	//metodo que comprueba si el movimiento que se desea hacer coincide con el que puede hacer la ficha
 	public boolean checkTokenPattern(int[] targetLocation) {
 		boolean result = false;
 		boolean movedOneUp;
@@ -102,15 +105,17 @@ public class Token {
 			break;
 
 		case 'a':
-
+			
+			//COmprobamos que el movimiento sea diagonal 
 			movedDiagonally = targetLocation[0] - currentLocation[0] == targetLocation[1] - currentLocation[1];
 
-			result =movedDiagonally;
+			result = movedDiagonally;
 
 			break;
 
 		case 'c':
-
+			
+			//Comprobamos si la posicion a donde se quiere mover sea una de las posiciones posibles del caballo
 			boolean jumpedUpLeft = (targetLocation[0] == currentLocation[0] - 1 && targetLocation[1] == currentLocation[1] + 2);
 			boolean jumpedLeftUp = (targetLocation[0] == currentLocation[0] - 2 && targetLocation[1] == currentLocation[1] + 1);
 			boolean jumpedUpRight = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] + 2);
@@ -125,7 +130,7 @@ public class Token {
 			break;
 
 		case 't':
-
+			//comprobamos si es horizontal o vertical el movimiento
 			movedHorizontally = (targetLocation[0] != currentLocation[0]) && (targetLocation[1] == currentLocation[1]);
 			movedVertically = (targetLocation[0] == currentLocation[0]) && (targetLocation[1] != currentLocation[1]);
 
@@ -134,7 +139,7 @@ public class Token {
 			break;
 
 		case 'q':
-
+			//Comprobamos si es horizontal, vertical o diagonal el movimiento
 			movedDiagonally = targetLocation[0] - currentLocation[0] == targetLocation[1] - currentLocation[1];
 			movedHorizontally = (targetLocation[0] != currentLocation[0]) && (targetLocation[1] == currentLocation[1]);
 			movedVertically = (targetLocation[0] == currentLocation[0]) && (targetLocation[1] != currentLocation[1]);
@@ -144,7 +149,8 @@ public class Token {
 			break;
 
 		case 'k':
-
+			
+			//Se comprueba que sea un movimiento a una casilla adyacente
 			movedOneUp = (targetLocation[1] == currentLocation[1]+1) && type == 'P';
 			movedOneDown = (targetLocation[1] == currentLocation[1]-1) && type == 'p';
 			movedOneRight = (targetLocation[0] == currentLocation[0]+1);
@@ -160,7 +166,6 @@ public class Token {
 
 	public void move(Board board, Token targetToken) {
 		int[] targetLocation = targetToken.getCurrentLocation();
-		
 		Token[][] updatedPanel = board.getPanel();
 		updatedPanel[targetLocation[0]][targetLocation[1]] = this;
 		updatedPanel[currentLocation[0]][currentLocation[1]] = new Token(currentLocation);

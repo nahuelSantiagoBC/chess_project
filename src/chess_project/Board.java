@@ -195,7 +195,12 @@ public class Board {
 		for (int i = 7; i >= 0; i--) {
 
 			for (int j = 0; j <= 7; j++) {
-				System.out.print(panel[i][j].getType() + " ");			
+				if(panel[i][j].getType() == 'e') {
+					System.out.print(". ");
+				}else {
+					System.out.print(panel[i][j].getType() + " ");
+				}
+							
 			}
 			System.out.println();
 		}
