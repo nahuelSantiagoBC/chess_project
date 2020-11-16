@@ -16,6 +16,8 @@ public class Token {
 		this.type = type;
 		value = calculateValue();
 		this.currentLocation = currentLocation;
+		
+		//Le añadimos la propiedad para el enroque a las torres y al rey
 		if (Character.toUpperCase(type) == 'T' || Character.toUpperCase(type) == 'K') {
 			canCast = true;
 		} else {
