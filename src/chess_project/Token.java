@@ -67,6 +67,7 @@ public class Token {
 		return result;
 	}
 
+	//metodo que comprueba si el movimiento que se desea hacer coincide con el que puede hacer la ficha
 	public boolean checkTokenPattern(int[] targetLocation) {
 		boolean result = false;
 		boolean movedOneUp;
@@ -107,12 +108,13 @@ public class Token {
 
 			movedDiagonally = targetLocation[0] - currentLocation[0] == targetLocation[1] - currentLocation[1];
 
-			result =movedDiagonally;
+			result = movedDiagonally;
 
 			break;
 
 		case 'c':
 
+			//Comprobamos si la posicion a donde se quiere mover sea una de las posiciones posibles del caballo
 			boolean jumpedUpLeft = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] - 1);
 			boolean jumpedLeftUp = (targetLocation[0] == currentLocation[0] + 1 && targetLocation[1] == currentLocation[1] - 2);
 			boolean jumpedUpRight = (targetLocation[0] == currentLocation[0] + 2 && targetLocation[1] == currentLocation[1] + 1);
@@ -128,6 +130,7 @@ public class Token {
 
 		case 't':
 
+			//comprobamos si es horizontal o vertical el movimiento
 			movedHorizontally = ((targetLocation[0] == currentLocation[1] && targetLocation[1] != currentLocation[0]));
 			movedVertically = ((targetLocation[0] != currentLocation[1] && targetLocation[1] == currentLocation[0]));
 
@@ -137,6 +140,7 @@ public class Token {
 
 		case 'q':
 
+			//Comprobamos si es horizontal, vertical o diagonal el movimiento
 			movedDiagonally = targetLocation[0] - currentLocation[0] == targetLocation[1] - currentLocation[1];
 			movedHorizontally = ((targetLocation[0] == currentLocation[1] && targetLocation[1] != currentLocation[0]));
 			movedVertically = ((targetLocation[0] != currentLocation[1] && targetLocation[1] == currentLocation[0]));
@@ -147,6 +151,7 @@ public class Token {
 
 		case 'k':
 
+			//Se comprueba que sea un movimiento a una casilla adyacente
 			movedOneUp = (targetLocation[0] == currentLocation[0]+1);
 			movedOneDown = (targetLocation[0] == currentLocation[0]-1);
 			movedOneRight = (targetLocation[1] == currentLocation[1]+1);

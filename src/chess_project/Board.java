@@ -6,9 +6,8 @@ import java.util.Arrays;
 public class Board {
 
 	//propiedades
-	//private Token[][] panel;
 
-	public Token panel[][] = new Token[8][8];
+	private Token panel[][];
 	private Token whiteKing;
 	private int whiteCapturedTokens;
 	private int whiteScore;
@@ -18,6 +17,10 @@ public class Board {
 	private int blackCapturedTokens;
 	private int blackScore;
 	private Token[] blackPrison;
+	
+	//booleana de fin de juego
+	boolean kingCaptured;
+	Token capturedKing;
 
 
 
@@ -97,14 +100,29 @@ public class Board {
 
 	}
 
+	//funciones
 
 	public Token getToken(int[] tokenLocation) {
 
 		return panel[tokenLocation[0]][tokenLocation[1]];
 	}
 
-	//funciones
 
+	public boolean checkIfCorrectColor(int[] tokenLocation, String player) {
+
+		boolean result = false;
+		Token token = getToken(tokenLocation);
+		boolean tokenColor = Character.isUpperCase(token.getType());
+		boolean playerColor = Character.isUpperCase(player.charAt(0));
+		
+		if (tokenColor == playerColor && token.getType() != 'e') {
+			result = true;
+		}
+		
+		return result;
+	}
+
+	
 	public boolean checkMove(int[] initLocation, int[] targetLocation) {
 		Token movingToken = getToken(initLocation);
 		Token targetToken;
@@ -244,15 +262,23 @@ public class Board {
 	}
 
 	private void captureToken(Token token) {
-		if(Character.isUpperCase(token.getType())) {
-			blackPrison[blackCapturedTokens] = token;
-			blackCapturedTokens++;
-			blackScore += token.getValue();
+
+		if (token.getType() == 'k') {
+			setCapturedKing(token);
+			setKingCaptured(true);
 		} else {
-			whitePrison[whiteCapturedTokens] = token;
-			whiteCapturedTokens++;
-			whiteScore += token.getValue();
+			if(Character.isUpperCase(token.getType())) {
+				blackPrison[blackCapturedTokens] = token;
+				blackCapturedTokens++;
+				blackScore += token.getValue();
+			} else {
+				whitePrison[whiteCapturedTokens] = token;
+				whiteCapturedTokens++;
+				whiteScore += token.getValue();
+			}			
 		}
+		
+		
 	}
 
 	public void showBoard() {
@@ -271,23 +297,6 @@ public class Board {
 		}
 		
 
-	}
-	public boolean isKingCapture() {
-		int count = 0;
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				
-				if(panel[i][j].getType()=='k'||panel[i][j].getType()=='K') {
-					count++;
-				}
-			}
-			if(count == 2) {
-				return true;
-			}
-			
-		}
-		return false;
-		
 	}
 
 	/*
@@ -365,6 +374,21 @@ public class Board {
 	public void setBlackPrison(Token[] blackPrison) {
 		this.blackPrison = blackPrison;
 	}
-	
+
+	public boolean isKingCaptured() {
+		return kingCaptured;
+	}
+
+	private void setKingCaptured(boolean kingCaptured) {
+		this.kingCaptured = kingCaptured;
+	}
+
+	public Token getCapturedKing() {
+		return capturedKing;
+	}
+
+	private void setCapturedKing(Token capturedKing) {
+		this.capturedKing = capturedKing;
+	}	
 
 }
