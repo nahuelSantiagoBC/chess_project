@@ -1,6 +1,5 @@
 package chess_project;
 
-import java.awt.image.ColorConvertOp;
 import java.util.Arrays;
 
 public class Board {
@@ -121,7 +120,6 @@ public class Board {
 		
 		return result;
 	}
-
 	
 	public boolean checkMove(int[] initLocation, int[] targetLocation) {
 		Token movingToken = getToken(initLocation);
@@ -281,6 +279,93 @@ public class Board {
 		
 	}
 
+	public boolean checkEveryMove(int[] initLocation) {
+		
+		boolean result = false;
+		Token token = getToken(initLocation);
+		int[][] posibleLocations;
+		int locationsNumber;
+		
+		
+		switch (Character.toLowerCase(token.getType())) {
+		case 'p':
+			//registramos las minimas localizaciones posibles a las que se puede mover un peón...
+			posibleLocations = new int[][] {
+				{initLocation[0] + 1, initLocation[1]},
+				{initLocation[0] + 1, initLocation[1] + 1}
+			};
+			locationsNumber = 2;
+			break;
+
+		case 'a':
+			//o un alfil
+			posibleLocations = new int[][] {
+				{initLocation[0] + 1, initLocation[1] + 1},
+				{initLocation[0] + 1, initLocation[1] - 1},
+				{initLocation[0] - 1, initLocation[1] - 1},
+				{initLocation[0] - 1, initLocation[1] + 1}
+			};
+			locationsNumber = 4;
+			break;
+		
+		case 't':
+			//o una torre
+			posibleLocations = new int[][] {
+				{initLocation[0] + 1, initLocation[1]},
+				{initLocation[0], initLocation[1] + 1},
+				{initLocation[0] - 1, initLocation[1]},
+				{initLocation[0], initLocation[1] - 1}
+			};
+			locationsNumber = 4;
+			break;
+
+		case 'c':
+			//o un caballo
+			posibleLocations = new int[][] {
+				{initLocation[0] + 1, initLocation[1] + 2},
+				{initLocation[0] + 1, initLocation[1] - 2},
+				{initLocation[0] + 2, initLocation[1] + 1},
+				{initLocation[0] + 2, initLocation[1] - 1},
+				{initLocation[0] - 1, initLocation[1] + 2},
+				{initLocation[0] - 1, initLocation[1] - 2},
+				{initLocation[0] - 2, initLocation[1] + 1},
+				{initLocation[0] - 2, initLocation[1] - 1}
+			};
+			locationsNumber = 8;
+			break;
+
+		case 'k':
+		case 'q':
+			//o un rey o una reina
+			posibleLocations = new int[][] {
+				{initLocation[0] + 1, initLocation[1] + 1},
+				{initLocation[0] + 1, initLocation[1] - 1},
+				{initLocation[0] - 1, initLocation[1] - 1},
+				{initLocation[0] - 1, initLocation[1] + 1},
+				{initLocation[0] + 1, initLocation[1]},
+				{initLocation[0], initLocation[1] + 1},
+				{initLocation[0] - 1, initLocation[1]},
+				{initLocation[0], initLocation[1] - 1}
+			};
+
+			locationsNumber = 8;
+			break;
+		
+		default:
+			posibleLocations = new int[][] {};
+			locationsNumber = 0;
+			break;
+		}
+		
+		for (int i = 0; i < locationsNumber; i++) {
+			if(checkMove(initLocation, posibleLocations[i])) {
+				result = true;
+			}
+		}
+		
+		return result;
+	}
+	
 	public void showBoard() {
 
 		for (int i = 7; i >= 0; i--) {

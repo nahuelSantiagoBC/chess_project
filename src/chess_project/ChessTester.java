@@ -79,7 +79,11 @@ public class ChessTester {
 		do {
 			location = requestChessBoardLocation();
 			if (board.checkIfCorrectColor(location, player)) {
-				validLocation = true;
+				if (board.checkEveryMove(location)) {
+					validLocation = true;					
+				} else {
+					System.out.println("That token cannot move right now!");
+				}
 			} else {
 				System.out.println("That location  has not a " + player.toLowerCase() + " token!");
 				board.showBoard();
