@@ -47,17 +47,17 @@ public class ChessTester {
 	private static boolean startTurn(Board board, String player) {
 		
 		boolean endGame = false;
-		boolean turnEnd = false;
 		int[] movingTokenLocation;
 		int[] targetTokenLocation;
 		
 		
-		System.out.println(toCamelCase(player) + " turn!");
-		do {
-			movingTokenLocation = getMovingToken(board, player);
-			targetTokenLocation = getTargetToken(board, movingTokenLocation);
-			board.makeMove(movingTokenLocation, targetTokenLocation);
-		} while (!turnEnd);
+		System.out.println(toCamelCase(player) + " turn!\n");
+		
+		movingTokenLocation = getMovingToken(board, player);
+		targetTokenLocation = getTargetToken(board, movingTokenLocation);
+		board.makeMove(movingTokenLocation, targetTokenLocation);
+		
+		System.out.print("\n\n");
 		
 		if (board.isKingCaptured()) {
 			endGame = true;
@@ -98,7 +98,7 @@ public class ChessTester {
 		int[] location;
 		
 		board.showBoard();
-		System.out.println("Select a location to move");
+		System.out.println("Select a location to move token in " + getLetterFromCoordinate(movingTokenLocation) + "-" + (movingTokenLocation[0] + 1) + ".");
 		do {
 			location = requestChessBoardLocation();
 			
@@ -144,6 +144,13 @@ public class ChessTester {
 		} while (!validValue);
 		
 		return result;
+	}
+	
+	private static char getLetterFromCoordinate(int[] coordinate) {
+		
+		ArrayList<Character> validLetters = new ArrayList<Character>(Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'));
+		
+		return validLetters.get(coordinate[1]);
 	}
 
 	private static char requestSingleCharacter(String messageForUser, String notSingleCharMessage) {
@@ -238,16 +245,5 @@ public class ChessTester {
 		}
 		return true;
 
-	}
-	public static int numberComp(String locationString, Scanner scan) {
-		
-		if(!isInteger(locationString)) {
-			do {
-				System.out.println("choose a row from 1 to 8");
-				locationString = scan.nextLine();
-			}while(!isInteger(locationString));
-		}
-		
-		return Integer.parseInt(locationString) - 1;
 	}
 }

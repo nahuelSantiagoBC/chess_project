@@ -367,9 +367,12 @@ public class Board {
 	}
 	
 	public void showBoard() {
-
+		
+		System.out.println("   A B C D E F G H   ");
+		System.out.println("  ------------------  ");
+		
 		for (int i = 7; i >= 0; i--) {
-
+			System.out.print((i+1) + " | ");
 			for (int j = 0; j <= 7; j++) {
 				if(panel[i][j].getType() == 'e') {
 					System.out.print(". ");
@@ -378,9 +381,13 @@ public class Board {
 				}
 							
 			}
+			System.out.print("| " + (i+1) );
 			System.out.println();
 		}
+		System.out.println("  ------------------  ");
+		System.out.println("   A B C D E F G H   ");
 		
+		System.out.println();
 
 	}
 
