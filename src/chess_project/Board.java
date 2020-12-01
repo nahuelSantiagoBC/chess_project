@@ -31,11 +31,11 @@ public class Board {
 
 		whiteCapturedTokens = 0;
 		whiteScore = 0;
-		whitePrison = new Token[8];
+		whitePrison = new Token[16];
 
 		blackCapturedTokens = 0;
 		blackScore = 0;
-		blackPrison = new Token[8];
+		blackPrison = new Token[16];
 
 	}
 
