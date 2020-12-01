@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 
 
-public class ChessTester {
+public class ChessGame {
 
 	private static Scanner inputReader;
 	
